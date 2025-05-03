@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+    <title>Your First Panel</title>
+</head>
+<body>
+    <!-- 1) Simple HTML UI elements to get us started -->
+    <h1>Your first panel</h1>
+
+    <!-- 2) A button -->
+    <button id="open-button">Open</button>
+    <!-- 1) A div with buttons for different export types -->
+	<div id="button-group">
+		<button id="export-original" class="btn btn-primary btn-block">Original</button>
+		<button id="export-pdf" class="btn btn-primary btn-block">PDF</button>
+		<button id="export-jpg" class="btn btn-primary btn-block">JPG</button>
+		<button id="export-png" class="btn btn-primary btn-block">PNG</button>
+        <button id="extract-audio" class="btn btn-primary btn-block">Extract Audio as MP3</button>
+        <button id="split-audio" class="btn btn-primary btn-block">Split Audio</button>
+	</div>
+
+    
+
+    <!-- 3) Add your script dependencies here, including CEP's CSInterface.js library -->
+     <!-- JSX -->
+    <!-- <script src="../assets/js/JSX.js"></script> -->
+    <script type="text/javascript" src="../assets/js/CSInterface.js"></script>
+    <script type="text/javascript" src="../assets/js/index.js"></script>
+    <!-- <script type="text/javascript" src="../host/index.jsx"></script> -->
+    
+</body>
+<!-- <script>
+    async function openai() {
+        var open_ai = require("openai");
+        var dotenv = require("dotenv");
+        dotenv.config({ path: "./env" });
+        console.log(process.env.OPENAI_API_KEY);
+        console.log("Calling OpenAIzz");
+
+        const client = new open_ai({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+        
+        const completion = await client.chat.completions.create({
+            model: "gpt-4.1",
+            messages: [
+                {
+                    role: "user",
+                    content: "Write a one-sentence bedtime story about a unicorn.",
+                },
+            ],
+        });
+        
+        console.log(completion.choices[0].message.content);
+
+        return completion.choices[0].message.content;
+    }
+</script> -->
+</html>

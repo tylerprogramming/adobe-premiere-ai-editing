@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../com.firecut.base"
+		},
+		{
+			"path": "../../com.tylerai.base"
+		}
+	],
+	"settings": {}
+}
