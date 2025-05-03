@@ -12,10 +12,6 @@ governing permissions and limitations under the License.
 
 app.enableQE();
 
-function hello() {
-	return "Hello from index.jsx";
-}
-
 function getSelectedClipPath() {
     if (app.project && app.project.activeSequence) {
         var seq = app.project.activeSequence;
@@ -73,29 +69,26 @@ function testCall(arg) {
 }
 
 function splitSelectedClipAtTimes(splitTimes) {
-	// alert("splitSelectedClipAtTimes called! arg: " + splitTimes);
-	// $.writeln("splitSelectedClipAtTimes called! arg: " + splitTimes);
-    // if (typeof splitTimes === "string") {
-	// 	alert("splitTimes is a string");
-    //     splitTimes = JSON.parse(splitTimes);
-    // }
-	// alert("app.project: ", app.project);
-	// alert("app.project.activeSequence: ", app.project.activeSequence);
 	try {
 		for (var k = 0; k < splitTimes.length; k++) {
 			var splitTime = splitTimes[k];
-			alert("splitTime: " + splitTime);
+			// alert("splitTime: " + splitTime);
 			var sqe = qe.project.getActiveSequence();
-			var hours = Math.floor(splitTime / 3600);
-			var minutes = Math.floor((splitTime - (hours * 3600)) / 60);
-			var seconds = Math.floor(splitTime - (hours * 3600) - (minutes * 60));
-			var frames = Math.floor((splitTime - Math.floor(splitTime)) * 24); // Assuming 24 fps
+			var totalFrames = Math.round(splitTime * 30); // = 164
+			var hours = Math.floor(totalFrames / (3600 * 30));
+			var minutes = Math.floor((totalFrames % (3600 * 30)) / (60 * 30));
+			var seconds = Math.floor((totalFrames % (60 * 30)) / 30);
+
+			
+
+			var frames = totalFrames % 30;
+			alert("totalFrames: " + totalFrames + ", hours: " + hours + ", minutes: " + minutes + ", seconds: " + seconds + ", frames: " + frames);
 			var timecodeString = padNumber(hours, 2) + ":" + padNumber(minutes, 2) + ":" + padNumber(seconds, 2) + ":" + padNumber(frames, 2);
-			alert("hours: " + hours + ", minutes: " + minutes + ", seconds: " + seconds + ", frames: " + frames);
-			alert("timecodeString: " + timecodeString);
+			// alert("hours: " + hours + ", minutes: " + minutes + ", seconds: " + seconds + ", frames: " + frames);
+			// alert("timecodeString: " + timecodeString);
 			// Apply the cut to all video tracks
 			for (var i = 0; i < sqe.numVideoTracks; i++) {
-			var videoTrack = sqe.getVideoTrackAt(i);
+				var videoTrack = sqe.getVideoTrackAt(i);
 				videoTrack.razor(timecodeString, true);
 			}
 
@@ -104,6 +97,53 @@ function splitSelectedClipAtTimes(splitTimes) {
 				audioTrack.razor(timecodeString, true);
 			}
 		}
+
+		// var seq = app.project.activeSequence;
+		// if (seq) {
+		// 	var first = app.project.rootItem.children[0];
+		// 	if (first) {
+		// 		if (!first.isSequence()) {
+		// 			if (first.type !== ProjectItemType.BIN) {
+		// 				var numVTracks = seq.videoTracks.numTracks;
+		// 				var numATracks = seq.audioTracks.numTracks;
+
+		// 				var targetVTrack = seq.videoTracks[(numVTracks - 1)];
+		// 				var targetATrack = seq.audioTracks[0];
+
+		// 				if (targetVTrack) {
+		// 					seq.linkSelection();
+		// 					// If there are already clips in this track, append this one to the end. Otherwise, insert at start time.
+		// 					if (targetVTrack.clips.numItems > 0) {
+		// 						for (var i = 1; i < targetVTrack.clips.numItems; i++) {
+		// 							var clip = targetVTrack.clips[i];
+		// 							clip.setSelected(true, true);
+
+		// 							// alert("clip number: " + i + " - " + clip)
+		// 							if (clip) {
+		// 								clip.remove(true, true)
+		// 							}
+		// 						}
+		// 					}
+		// 				}
+
+		// 				if (targetATrack) {
+		// 					// seq.linkSelection();
+		// 					// If there are already clips in this track, append this one to the end. Otherwise, insert at start time.
+		// 					if (targetATrack.clips.numItems > 0) {
+		// 						for (var j = 1; j < targetATrack.clips.numItems; j++) {
+		// 							var clip = targetATrack.clips[j];
+		// 							clip.setSelected(true, true);
+		// 							if (clip) {
+		// 								clip.remove(true, true)
+		// 							}
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+		
 
 		return "split times: " + splitTimes;
 		// if (app.project && app.project.activeSequence) {
